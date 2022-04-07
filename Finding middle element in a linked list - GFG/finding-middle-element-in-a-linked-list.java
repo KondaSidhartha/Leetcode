@@ -57,18 +57,12 @@ class Solution
 {
     int getMiddle(Node head)
     {
-         int size=0;
-         Node temp=head;
-         while(temp!=null){
-             temp=temp.next;
-             size++;
+         Node fast=head;
+         Node slow=head;
+         while(fast!=null&&fast.next!=null){
+             slow=slow.next;
+             fast=fast.next.next;
          }
-         temp=head;
-         size=size/2;
-         while(size>0){
-             temp=temp.next;
-             size--;
-         }
-         return temp.data;
+         return slow.data;
     }
 }
