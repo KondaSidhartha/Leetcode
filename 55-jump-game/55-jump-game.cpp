@@ -1,11 +1,21 @@
 class Solution {
 public:
     bool canJump(vector<int>& nums) {
-        int maxreachable=nums[0];
-        for(int i=0;i<nums.size();i++){
-             if(i>maxreachable)break;
-             maxreachable=max(maxreachable,nums[i]+i);
+        int l=0,r=0;
+        while(r<nums.size()-1)
+        {
+            int farthest=0;
+            for(int i=l;i<=r;i++)
+            {
+                farthest=max(farthest,nums[i]+i);
+            }
+            if(r==farthest)
+            {
+                return false;
+            }
+            l=r;
+            r=farthest;
         }
-        return maxreachable>=nums.size()-1;
+        return true;
     }
 };
