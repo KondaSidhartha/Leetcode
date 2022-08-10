@@ -1,32 +1,20 @@
 class Solution {
 public:
-    vector<vector<int>> combinationSum(vector<int>& candidates, int target) 
-    {
-        vector<vector<int>> ans;
-        vector<int> current;
-        backtracking(candidates, target, ans, 0, 0, current);
-        return ans;
+    vector<vector <int>> ans;
+    void find(vector<int>& candidates, int target,int curr,vector<int> temp,int idx){
+        if(curr==target)ans.push_back(temp);
+        
+        for(int i=idx;i<candidates.size();i++){
+            if(curr+candidates[i]>target)return ;
+            temp.push_back(candidates[i]);
+            find(candidates,target,curr+candidates[i],temp,i);
+            temp.pop_back();
+        }
     }
-    
-    void backtracking(vector<int>& candidates, int target, vector<vector<int>>& ans, int sum, int start, vector<int>& current)
-    {
-        if(sum == target)
-        {
-            ans.push_back(current);
-            return;
-        }
-        
-        if(sum > target)
-        {
-            return;
-        }
-        
-        for(int i = start; i < candidates.size(); i++)
-        {
-            int s = sum + candidates[i];
-            current.push_back(candidates[i]);
-            backtracking(candidates, target, ans, s, i, current);
-            current.pop_back();
-        }
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        sort(candidates.begin(),candidates.end());
+        vector<int> temp;
+        find(candidates,target,0,temp,0);
+        return ans;
     }
 };
