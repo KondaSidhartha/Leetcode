@@ -7,7 +7,7 @@ public:
             mp[s[i]]++;
             mp[t[i]]--;
         }
-        for(auto it: mp){
+        for(auto it:mp){
             if(it.second!=0)return false;
         }
         return true;
