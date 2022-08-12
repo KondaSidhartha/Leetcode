@@ -22,21 +22,14 @@ public:
         return -1;
     }
     
-    vector<int> kmp(string t){
-         vector<int> lps(t.size(),0);
-        int len=0;
-        for(int i=1;i<t.size();){
-            if(t[i]==t[len]){
-                len++;
-                lps[i]=len;
-                i++;
-            }
-            else if(len){
-                len=lps[len-1];
-            }
-            else{
-                lps[i++]=0;
-            }
+    vector<int> kmp(string p){
+        vector<int> lps(p.size(),0);
+        for(int i=1;i<p.size();i++){
+             int j=lps[i-1];
+             while(j>0 && p[i]!=p[j]){
+                 j=lps[j-1];
+             }
+            lps[i]=(j+=p[i]==p[j]);
         }
         return lps;
     }
