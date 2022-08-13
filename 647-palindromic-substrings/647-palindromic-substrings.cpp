@@ -2,21 +2,21 @@ class Solution {
 public:
     int countSubstrings(string s) {
         int n=s.size();
+        bool dp[n][n];
+        memset(dp,false,sizeof dp);
         int ans=0;
-        
         for(int i=0;i<n;i++){
-            int x=i-1,y=i+1;
-            ans++;
-            while(x>=0 and y<n and s[x]==s[y]){
-                ans++;
-                x--;
-                y++;
-            }
-             x=i,y=i+1;
-            while(x>=0 and y<n and s[y]== s[x]){
-                ans++;
-                x--;
-                y++;
+             ans++;
+            dp[i][i]=true;
+        }
+        for(int i=n-2;i>=0;i--){
+            for(int j=i+1;j<n;j++){
+               if(s[i]==s[j]){
+                   if(j-i==1 || dp[i+1][j-1]){
+                       dp[i][j]=true;
+                       ans++;
+                   }
+               }
             }
         }
         return ans;
