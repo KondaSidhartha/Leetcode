@@ -12,17 +12,17 @@
 class Solution {
 public:
     void flatten(TreeNode* root) {
-        if(root)reverseinorder(root);
+        if(root)solve(root);
     }
- private:
-    TreeNode* head=nullptr;
-    void reverseinorder(TreeNode* node){
-        if(node->right)
-            reverseinorder(node->right);
-        if(node->left)
-            reverseinorder(node->left);
-        node->left=nullptr;
-        node->right=head;
-        head=node;
+    TreeNode* head;
+    void solve(TreeNode* root){
+        
+        if(root->right)solve(root->right);
+        if(root->left)solve(root->left);
+        
+        root->left=NULL;
+        root->right=head;
+        head=root;
+        
     }
 };
