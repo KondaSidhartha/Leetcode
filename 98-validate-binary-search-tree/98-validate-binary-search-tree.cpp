@@ -12,12 +12,13 @@
 class Solution {
 public:
     bool isValidBST(TreeNode* root) {
-        return find(root,LONG_MIN,LONG_MAX);
+        return check(root,LONG_MIN,LONG_MAX);
     }
-    bool find(TreeNode* root,long min,long max){
-        if(!root)return true;
-        if(root->val>=max || root->val <=min)return false;
+    bool check(TreeNode* root,long min,long max){
+        if(root==NULL)return true;
         
-        return find(root->left,min,root->val) && find(root->right,root->val,max);
+        if(root->val >=max || root->val <=min)return false;
+        
+        return check(root->left,min,root->val) && check(root->right,root->val,max);
     }
 };
