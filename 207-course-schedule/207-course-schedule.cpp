@@ -1,32 +1,32 @@
 class Solution {
 public:
     bool canFinish(int n, vector<vector<int>>& p) {
-        vector<vector<int>> adj(n);
-        for(auto i:p){
-            adj[i[0]].push_back(i[1]);
+        vector<vector<int>> pp(n);
+        for(int i=0;i<p.size();i++){
+            pp[p[i][0]].push_back(p[i][1]);
         }
-        vector<int> in(n);
-        for(auto i:adj){
-            for(auto e:i){
-                in[e]++;
+        vector<int> indeg(n);
+        
+        for(int i=0;i<n;i++){
+            for(auto j:pp[i]){
+                indeg[j]++;
             }
         }
         queue<int> q;
         for(int i=0;i<n;i++){
-            if(in[i]==0) q.push(i);
+            if(indeg[i]==0)q.push(i);
         }
         while(!q.empty()){
-            int k=q.front();
+            auto i=q.front();
             q.pop();
-            for(auto i:adj[k]){
-                in[i]--;
-                if(in[i]==0)q.push(i);
+            for(auto j:pp[i]){
+                indeg[j]--;
+                if(indeg[j]==0)q.push(j);
             }
         }
         for(int i=0;i<n;i++){
-             if(in[i]>0)return 0;
+            if(indeg[i]!=0)return false;
         }
-        return 1;
-        
+        return true;
     }
 };
