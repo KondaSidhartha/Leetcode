@@ -11,8 +11,10 @@ public:
             string s;
             getline(ss,root,' ');
             while(getline(ss,s,' ')){
-                string fileloc=root+'/'+s.substr(0,s.find('('));
-                string filecontent=s.substr(s.find('(')+1,s.find(')')-s.find('(')-1);
+                int i=s.find('(');
+                int j=s.find(')');
+                string fileloc=root+'/'+s.substr(0,i);
+                string filecontent=s.substr(i+1,j-i-1);
                 files[filecontent].push_back(fileloc);
             }
         }
