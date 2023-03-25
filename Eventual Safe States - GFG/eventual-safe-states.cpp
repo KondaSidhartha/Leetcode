@@ -10,35 +10,28 @@ using namespace std;
 
 class Solution {
   public:
-  bool dfs(int i,vector<int> &vis,vector<int> &pathvis, vector<int> adj[],vector<int> &check){
-       vis[i]=1;
-       pathvis[i]=1;
-       check[i]=0;
-       for(auto &it:adj[i]){
-           if(!vis[it]){
-               if(dfs(it,vis,pathvis,adj,check)==true)return true;
-           }
-           else if(pathvis[it])return true;
-       }
-       pathvis[i]=0;
-       check[i]=1;
-       return false;
-   }
     vector<int> eventualSafeNodes(int V, vector<int> adj[]) {
-         vector<int> vis(V,0);
-        vector<int> pathvis(V,0);
-        vector<int> check(V,0);
-        for(int i=0;i<V;i++){
-            if(!vis[i]){
-                dfs(i,vis,pathvis,adj,check);
-            }
-        }
-        vector<int> ans;
-        for(int i=0;i<V;i++){
-            if(check[i]==1)ans.push_back(i);
-        }
-        return ans;
-        
+        vector<int> adjRev[V];
+        vector<int> v(V,0);
+	    queue<int> q;
+	    for(int i=0;i<V;i++){
+	        for(auto it:adj[i]){
+	            adjRev[it].push_back(i);
+	            v[i]++;
+	        }
+	    }
+	    vector<int> ans;
+	    for(int i=0;i<V;i++)if(v[i]==0){q.push(i); ans.push_back(i);}
+	    while(!q.empty()){
+	        int node=q.front();
+	        q.pop();
+	        for(auto it:adjRev[node]){
+	            v[it]--;
+	            if(v[it]==0){q.push(it); ans.push_back(it);}
+	        }
+	    }
+	    sort(ans.begin(),ans.end());
+	    return ans;
     }
 };
 
