@@ -5,29 +5,27 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-   bool dfs(int i,vector<int> &vis,vector<int> &pathvis, vector<int> adj[]){
-       vis[i]=1;
-       pathvis[i]=1;
-       
-       for(auto &it:adj[i]){
-           if(!vis[it]){
-               if(dfs(it,vis,pathvis,adj)==true)return true;
-           }
-           else if(pathvis[it])return true;
-       }
-       pathvis[i]=0;
-       return false;
-   }
     // Function to detect cycle in a directed graph.
     bool isCyclic(int V, vector<int> adj[]) {
-        vector<int> vis(V,0);
-        vector<int> pathvis(V,0);
-        for(int i=0;i<V;i++){
-            if(!vis[i]){
-                if(dfs(i,vis,pathvis,adj)==true)return true;
-            }
-        }
-        return false;
+        vector<int> v(V,0);
+	    queue<int> q;
+	    for(int i=0;i<V;i++){
+	        for(auto it:adj[i]){
+	            v[it]++;
+	        }
+	    }
+	    //vector<int> ans;
+	    for(int i=0;i<V;i++)if(v[i]==0){q.push(i);}
+	    while(!q.empty()){
+	        int node=q.front();
+	        q.pop();
+	        for(auto it:adj[node]){
+	            v[it]--;
+	            if(v[it]==0){q.push(it);}
+	        }
+	    }
+	   for(int i=0;i<V;i++)if(v[i]!=0){return true;}
+	   return false;
     }
 };
 
