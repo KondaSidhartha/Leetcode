@@ -5,31 +5,23 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-    bool detectcycle(vector<int> adj[],vector<int> &vis,int i){
+    bool dfs(vector<int> adj[],vector<int> &vis,int i,int par){
         vis[i]=1;
-        
-        queue<pair<int,int>> q;
-        
-        q.push({i,-1});
-        while(!q.empty()){
-            auto t=q.front();
-            q.pop();
-            for(auto i:adj[t.first]){
-                if(!vis[i]){
-                    vis[i]=1;
-                    q.push({i,t.first});
-                }
-                else if(t.second!=i)return true;
+        bool ans=true;
+        for(auto t:adj[i]){
+            if(!vis[t]){
+                ans&=dfs(adj,vis,t,i);
             }
+            else if(t!=par)return false;
         }
-        return false;
+        return ans;
     }
     // Function to detect cycle in an undirected graph.
     bool isCycle(int V, vector<int> adj[]) {
         vector<int> v(V,0);
         for(int i=0;i<V;i++){
             if(!v[i]){
-                if(detectcycle(adj,v,i))return true;
+                if(!dfs(adj,v,i,-1))return true;
             }
         }
         return false;
