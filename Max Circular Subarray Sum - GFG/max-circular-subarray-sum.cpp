@@ -17,16 +17,13 @@ class Solution{
         int sum2=arr[0];
         int sum=arr[0];
         int ans=0;
-        int mnn=arr[0];
         for(int i=1;i<num;i++){
-            mnn=max(mnn,arr[i]);
             sum+=arr[i];
             sum1=min(sum1+arr[i],arr[i]);
             sum2=max(sum2+arr[i],arr[i]);
             mn=min(sum1,mn);
             mx=max(sum2,mx);
         }
-        //cout<<mn<<" "<<mx<<" "<<sum<<" ";
         ans=max(mx,sum-mn);
         if(sum==mn)return mx;
         return ans;
