@@ -1,33 +1,37 @@
-// { Driver Code Starts
+//{ Driver Code Starts
 #include <bits/stdc++.h>
 using namespace std;
 
- // } Driver Code Ends
+// } Driver Code Ends
 class Solution
 {
     public:
     //Function to find the maximum number of meetings that can
     //be performed in a meeting room.
-    int maxMeetings(int start[], int end[], int n)
+    int maxMeetings(int s[], int e[], int n)
     {
-        vector<pair<int,int>> a;
+        vector<vector<int>> v;
         for(int i=0;i<n;i++){
-            a.push_back({end[i],start[i]});
+            v.push_back({e[i],s[i]});
         }
-        sort(a.begin(),a.end());
-        int ans=1;
-        int flag=a[0].first;
-        for(int i=1;i<n;i++){
-            if(flag<a[i].second){
-                ans++;
-                flag=a[i].first;
+        sort(v.begin(),v.end());
+        int ans=0;
+        int i=0;
+        while(i<n){
+            int end=v[i][0];
+            int j=i+1;
+            while(j<n && v[j][1]<=end){
+                j++;
             }
+            i=j;
+            ans++;
         }
         return ans;
+        
     }
 };
 
-// { Driver Code Starts.
+//{ Driver Code Starts.
 int main() {
     int t;
     cin >> t;
@@ -44,4 +48,5 @@ int main() {
         cout << ans << endl;
     }
     return 0;
-}  // } Driver Code Ends
+}
+// } Driver Code Ends
