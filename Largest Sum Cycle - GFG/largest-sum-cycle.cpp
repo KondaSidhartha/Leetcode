@@ -8,23 +8,20 @@ using namespace std;
 class Solution
 {
   public:
-  long long ans=-1;
-  void dfs(int ind,vector<int> &vis,vector<int> adj[],long long sum){
-      ans=max(ans,sum);
-      vis[ind]=1;
-      for(auto it:adj[ind]){
-          if(!vis[it]){
-              dfs(it,vis,adj,sum+it);
-          }
-      }
-      return;
-  }
+//   void dfs(int ind,vector<int> &vis,vector<int> adj[],long long sum){
+//       ans=max(ans,sum);
+//       vis[ind]=1;
+//       for(auto it:adj[ind]){
+//           if(!vis[it]){
+//               dfs(it,vis,adj,sum+it);
+//           }
+//       }
+//       return;
+//   }
   long long largestSumCycle(int n, vector<int> e)
   {
-     vector<int> adj[n];
      vector<int> indeg(n,0);
      for(int i=0;i<e.size();i++){
-         if(e[i]!=-1)adj[i].push_back(e[i]);
          if(e[i]!=-1)indeg[e[i]]++;
      }
      queue<int> q;
@@ -36,7 +33,6 @@ class Solution
      }
      while(!q.empty()){
          auto it=q.front();
-        //  cout<<it<<endl;
          q.pop();
          vis[it]=1;
          if(e[it]==-1)continue;
@@ -45,10 +41,26 @@ class Solution
              q.push(e[it]);
          }
      }
+     long long ans=-1;
      for(int i=0;i<n;i++){
-         if(!vis[i]){
-             dfs(i,vis,adj,i);
+         if(vis[i]){
+             continue;
+            //  dfs(i,vis,adj,i);
          }
+         queue<int> qq;
+         qq.push(i);
+         long long fans=0;
+         while(!qq.empty()){
+             auto it=qq.front();
+             qq.pop();
+             vis[it]=1;
+             fans+=it;
+             if(e[it]==-1)continue;
+             if(!vis[e[it]]){
+                 qq.push(e[it]);
+             }
+         }
+         ans=max(ans,fans);
      }
      return ans;
   }
