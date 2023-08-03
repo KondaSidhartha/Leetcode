@@ -8,43 +8,32 @@ using namespace std;
 // User function Template for C++
 class Solution {
   public:
-     void toposort(int node,stack<int> &s,vector<pair<int,int>> adj[],vector<int> &vis){
-         vis[node]=1;
-         
-         for(auto it:adj[node]){
-             if(!vis[it.first]){
-                 toposort(it.first,s,adj,vis);
-             }
-         }
-         s.push(node);
-     }
-     vector<int> shortestPath(int n,int m, vector<vector<int>>& edges){
-        vector<pair<int,int>> adj[n];
+     vector<int> shortestPath(int N,int M, vector<vector<int>>& edges){
+        vector<pair<int,int>> adj[N];
         for(auto it:edges){
             adj[it[0]].push_back({it[1],it[2]});
         }
-        vector<int> vis(n,0);
-        stack<int> s;
-        for(int i=0;i<n;i++){
-            if(!vis[i]){
-                toposort(i,s,adj,vis);
-            }
-        }
-        vector<int> dis(n,1e9);
+        priority_queue <pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
+        pq.push({0,0});
+        vector<int> dis(N,INT_MAX);
         dis[0]=0;
-        while(!s.empty()){
-            int node=s.top();
-            s.pop();
-            for(auto it:adj[node]){
-                int v=it.first;
-                int wt=it.second;
-                if(dis[node]+wt<dis[v]){
-                    dis[v]=dis[node]+wt;
+        while(!pq.empty()){
+            auto it=pq.top();
+            pq.pop();
+            int d=it.first;
+            for(auto itr:adj[it.second]){
+                int node=itr.first;
+                int dd=itr.second;
+                if(dis[node]>dd+dis[it.second]){
+                    dis[node]=dd+dis[it.second];
+                    pq.push({dis[node],itr.first});
                 }
             }
         }
-        for(int i=0;i<n;i++){
-            if(dis[i]==1e9)dis[i]=-1;
+        for(int i=0;i<N;i++){
+            if(dis[i]==INT_MAX){
+                dis[i]=-1;
+            }
         }
         return dis;
     }
